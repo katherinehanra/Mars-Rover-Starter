@@ -12,6 +12,10 @@ describe("Message class", function () {
     }).toThrow(Error("Message name required."));
   });
   //TEST 5//
+  test("constructor sets name", function () {
+    let testName = new Message("name");
+    expect(testName.messageName).toBe("name");
+  });
 
   //TEST 6//
 });

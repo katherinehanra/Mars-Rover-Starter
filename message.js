@@ -1,9 +1,9 @@
 class Message {
-  constructor(name, commands) {
-    if (!name) {
+  constructor(messageName, commands) {
+    if (!messageName) {
       throw Error("Message name required.");
     }
-    this.name = name;
+    this.messageName = messageName;
     this.commands = commands;
   }
 }
