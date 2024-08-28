@@ -18,9 +18,9 @@ describe("Rover class", function () {
   test("response returned by receiveMessage contains the name of the message", function () {
     let command = [new Command("STATUS_CHECK")];
     let message = new Message("Test message with 1 command", command);
-    let rover = new Rover(98382);
+    let rover = new Rover();
     let response = rover.receiveMessage(message);
-    expect(response.message).toEqual("Test message with 1 command");
+    expect(response.message).toBe("Test message with 1 command");
     // let message = new Message("message content");
     // let roverTest = new Rover().receiveMessage(message);
     // expect(roverTest.message).toBe("message content");
@@ -43,10 +43,21 @@ describe("Rover class", function () {
     let response = rover.receiveMessage(message);
     expect(response.results[0].roverStatus.mode).toEqual("NORMAL");
     expect(response.results[0].roverStatus.generatorWatts).toEqual(110);
-    expect(response.results[0].roverStatus.position).toEqual(87382098);
+    expect(response.results[0].roverStatus.position).toBe(87382098);
   });
 
   //TEST 11//
+  test("responds correctly to the mode change command", function () {
+    let command = [new Command("MODE_CHANGE")];
+    let message = new Message("mode change message", command);
+    let rover = new Rover();
+    let response = rover.receiveMessage(message);
+    expect(response.results[0].completed).toBe(true);
+  });
+
   //TEST 12//
-  //TEST 13//
+  // test("", function () {  });
+
+  // //TEST 13//
+  // test("", function () {  });
 });
