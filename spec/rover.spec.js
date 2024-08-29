@@ -21,9 +21,6 @@ describe("Rover class", function () {
     let rover = new Rover();
     let response = rover.receiveMessage(message);
     expect(response.message).toBe("Test message with 1 command");
-    // let message = new Message("message content");
-    // let roverTest = new Rover().receiveMessage(message);
-    // expect(roverTest.message).toBe("message content");
   });
 
   //TEST 9//
@@ -39,11 +36,11 @@ describe("Rover class", function () {
   test("responds correctly to the status check command", function () {
     let command = [new Command("STATUS_CHECK")];
     let message = new Message("status check", command);
-    let rover = new Rover(87382098);
+    let rover = new Rover(1234);
     let response = rover.receiveMessage(message);
     expect(response.results[0].roverStatus.mode).toEqual("NORMAL");
     expect(response.results[0].roverStatus.generatorWatts).toEqual(110);
-    expect(response.results[0].roverStatus.position).toBe(87382098);
+    expect(response.results[0].roverStatus.position).toBe(1234);
   });
 
   //TEST 11//
@@ -56,8 +53,27 @@ describe("Rover class", function () {
   });
 
   //TEST 12//
-  // test("", function () {  });
+  test("responds with a false completed value when attempting to move in LOW_POWER mode", function () {
+    let commands = [
+      new Command("MODE_CHANGE", "LOW_POWER"),
+      new Command("MOVE", 12500),
+    ];
+    let message = new Message("mode change and move command message", commands);
+    let rover = new Rover(20000);
+    let response = rover.receiveMessage(message);
+    console.log(response.results[1]);
+    expect(response.results[1]).toStrictEqual({ completed: false });
+  });
 
-  // //TEST 13//
-  // test("", function () {  });
+  //TEST 13//
+  test("responds with the position for the move command", function () {
+    let commands = [
+      new Command("MODE_CHANGE", "NORMAL"),
+      new Command("MOVE", 30000),
+    ];
+    let message = new Message("move command message", commands);
+    let rover = new Rover(90000);
+    let response = rover.receiveMessage(message);
+    expect(rover.position).toBe(30000);
+  });
 });

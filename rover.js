@@ -20,12 +20,17 @@ class Rover {
         });
       } else if (command.commandType === "MODE_CHANGE") {
         this.mode = command.value;
-        results.push({ completed: true });
+        results.push({
+          completed: true,
+        });
       } else if (command.commandType === "MOVE" && this.mode === "LOW_POWER") {
-        results.push({ Rover: "Can't be Moved in this State" });
-      } else if (command.commandType === "MOVE" && this.mode === "NORMAL")
+        results.push({ completed: false });
+      } else if (command.commandType === "MOVE" && this.mode === "NORMAL") {
         this.position = command.value;
-      results.push({ completed: true });
+        results.push({ completed: true });
+      } else {
+        results.push({ completed: false, reason: "Invalid command." });
+      }
     }
 
     return {
